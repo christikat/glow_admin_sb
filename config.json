@@ -1,0 +1,18 @@
+{
+    "discordBotToken":"",
+    "serverIP": "000.000.00.00:30120",
+    "discordServerId": "",
+    "loadCooldown": 180,
+    "jobCounter": {
+        "police": {
+            "label": "Police",
+            "icon": "fa-solid fa-shield",
+            "checkDuty": true
+        },
+        "ambulance": {
+            "label": "EMS",
+            "icon": "fa-solid fa-heart-pulse",
+            "checkDuty": true
+        }
+    }
+}
