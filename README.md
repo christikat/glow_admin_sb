@@ -25,5 +25,4 @@ This script also has search and filter functionality for admins to quickly find 
 8. Add the bot to your discord server
 
 ### Setting Up config.json
-- The default port is set to 30120. If you've changed it, update serverIP with the port you've changed it to
 - Get your discord server id by right clicking on your discord server and clicking copy ID. If you do not see this option, go to Settings ➝ Advanced and enable Developer Mode

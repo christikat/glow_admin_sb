@@ -1,6 +1,5 @@
 {
     "discordBotToken":"",
-    "serverIP": "000.000.00.00:30120",
     "discordServerId": "",
     "loadCooldown": 180,
     "jobCounter": {

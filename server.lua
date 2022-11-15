@@ -28,83 +28,52 @@ local function intToHex(num)
     return string.format("%x", num)
 end
 
-local function setupEndpoint()
-    SetHttpHandler(function(req, res)
-        local path = req.path
-        if path == "/updateMemberRoles" then
-            req.setDataHandler(function(body)
-                local result = json.decode(body)
-                if result.guildId ~= Config.discordServerId then
-                    res.send(json.encode({
-                        result = "error"
-                    }))
-                    return
-                end
+function updateMemberRoles(update)
+    local result = json.decode(update)
 
-                if playerDiscordIds[result.userId] then
-                    local newRoles = {}
-                    for _, role in pairs(result.roles) do
-                        if discordRoles[role] then
-                            if discordRoles[role].name ~= "@everyone" then
-                                newRoles[role] = discordRoles[role]
-                            end
-                        end
-                    end
-                    allPlayerData[playerDiscordIds[result.userId]].discordData.roles = newRoles
+    if playerDiscordIds[result.userId] then
+        local newRoles = {}
+        for _, role in pairs(result.roles) do
+            if discordRoles[role] then
+                if discordRoles[role].name ~= "@everyone" then
+                    newRoles[role] = discordRoles[role]
                 end
-
-                res.send(json.encode({
-                    result = "success"
-                }))
-                return
-            end)
+            end
         end
-
-        if path == "/updateRoles" then
-            req.setDataHandler(function(body)
-                local result = json.decode(body)
-                
-                if result.role.guild ~= Config.discordServerId then
-                    res.send(json.encode({
-                        result = "error"
-                    }))
-                    return
-                end
-                
-                
-                if result.action == "delete" then
-                    discordRoles[result.role.id] = nil
-                    res.send(json.encode({
-                        result = "success"
-                    }))
-                    return
-                end
-
-                discordRoles[result.role.id] = {
-                    name = result.role.name, 
-                    position = result.role.rawPosition,
-                    colour = intToHex(result.role.color)
-                }
-
-                if result.action == "update" then
-                    for k, v in pairs(allPlayerData) do
-                        for l, m in pairs(v.discordData.roles) do
-                            if l == result.role.id then
-                                allPlayerData[k].discordData.roles[l] = discordRoles[result.role.id]
-                                break
-                            end
-                        end
-                    end
-                end
-
-                res.send(json.encode({
-                    result = "success"
-                }))
-            end)
-        end
-   
-    end)
+        allPlayerData[playerDiscordIds[result.userId]].discordData.roles = newRoles
+    end
+    return true
 end
+
+exports("updateMemberRoles", updateMemberRoles)
+
+function updateRoles(update)
+    local result = json.decode(update)
+    
+    if result.action == "delete" then
+        discordRoles[result.role.id] = nil
+        return
+    end
+
+    discordRoles[result.role.id] = {
+        name = result.role.name, 
+        position = result.role.rawPosition,
+        colour = intToHex(result.role.color)
+    }
+
+    if result.action == "update" then
+        for k, v in pairs(allPlayerData) do
+            for l, m in pairs(v.discordData.roles) do
+                if l == result.role.id then
+                    allPlayerData[k].discordData.roles[l] = discordRoles[result.role.id]
+                    break
+                end
+            end
+        end
+    end
+end
+
+exports("updateRoles", updateRoles)
 
 local function getDiscordId(src)
     local discordId
@@ -338,7 +307,6 @@ end)
 AddEventHandler("onResourceStart", function(resource)
     if resource == GetCurrentResourceName() then
         SetTimeout(2000, function()
-            setupEndpoint()
             fetchAllPlayerData()
         end)
     end
