@@ -262,10 +262,7 @@ end)
 
 RegisterNetEvent("glow_admin_sb_sv:loadPlayerData", function()
     local src = source
-    if QBCore.Functions.HasPermission(src, 'admin') or IsPlayerAceAllowed(src, 'command') then
-        TriggerClientEvent("glow_admin_sb_cl:setupUI", src, Config.jobCounter)
-    end
-
+    
     if allPlayerData[tostring(src)] then
         allPlayerData[tostring(src)].charData = getCharData(src)
     else
