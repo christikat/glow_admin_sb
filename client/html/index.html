@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="admin-container">
+        <div id="top-container">
+            <input id="search" type="text" placeholder="Search" tabindex="-1">
+            <div id="admin-count" class="counter" data-counter="admin">
+                <div class="counter-tooltip">Admin</div>
+                <i class="fa-solid fa-user-tie"></i>
+                <span></span>
+            </div>
+            <div id="player-count" class="counter" data-counter="player">
+                <div class="counter-tooltip">Players Online</div>
+                <span></span>
+            </div>
+            <div id="refresh" class="counter">
+                <div class="counter-tooltip">Refresh</div>
+                <i class="fa-solid fa-rotate-right"></i>
+            </div>
+        </div>
+        <div id="cards-container">
+            <div id="user-cards"></div>
+        </div>
+        <div class="player-inventory-container" style="display: none;">
+            <div class="player-inventory">
+                <div class="player-inventory-slots"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

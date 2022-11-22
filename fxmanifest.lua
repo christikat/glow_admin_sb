@@ -5,23 +5,23 @@ author 'Glowie'
 description 'A scoreboard for admins'
 version '1.0'
 
-client_script 'client.lua'
+client_script 'client/client.lua'
 
 server_scripts {
-	'server.lua',
-	'bot.js'
+	'server/server.lua',
+	'server/bot.js'
 }
 
 shared_scripts {
     '@qb-core/shared/locale.lua',
 }
 
-ui_page 'html/index.html'
+ui_page 'client/html/index.html'
 
 files {
-	'html/index.html',
-	'html/script.js',
-	'html/style.css',
+	'client/html/index.html',
+	'client/html/script.js',
+	'client/html/style.css',
 }
 
 lua54 'yes'
