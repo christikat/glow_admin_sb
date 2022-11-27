@@ -10,8 +10,10 @@ You can view a players inventory by clicking on their profile picture.
 ![Admin Scoreboard](https://i.imgur.com/UbEkiBd.png)
 ![Admin Scoreboard With Inventory](https://i.imgur.com/pHBQLxZ.png)
 - The command `/scoreboard` in discord will show how many players are online, how many admins are online, and how many players with each job that you've set in the config
+
 ![Discord Scoreboard](https://i.imgur.com/mI0Az8b.png)
 - The command `/playerlist` will display a list of all players with their server id, character name, job, and duty status
+
 ![Discord Scoreboard](https://i.imgur.com/4SdB61G.png) 
 - In game commands are locked to admins, while discord commands are locked to those that have discord permissions to ban other discord members in your server
 
