@@ -1,6 +1,7 @@
 {
     "discordBotToken":"",
     "discordServerId": "",
+    "applicationId": "",
     "loadCooldown": 180,
     "jobCounter": {
         "police": {

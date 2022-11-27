@@ -75,6 +75,45 @@ end
 
 exports("updateRoles", updateRoles)
 
+function discordScoreboard()
+    local data = {}
+    data.serverName = GetConvar('sv_projectName', 'default FXServer')
+    data.onlinePlayers = #GetPlayers()
+    data.maxPlayers = GetConvarInt('sv_maxclients', 48)
+    data.adminCount = 0
+    data.jobCount = {}
+
+    for k, v in pairs(Config.jobCounter) do
+        data.jobCount[k] = {
+            count = 0,
+            label = v.label,
+            checkDuty = v.checkDuty
+        }
+    end
+
+    for _, player in pairs(QBCore.Functions.GetQBPlayers()) do
+        for k, v in pairs(Config.jobCounter) do
+            if player.PlayerData.job.name == k then
+                if v.checkDuty then
+                    if player.PlayerData.job.onduty then
+                        data.jobCount[k].count += 1
+                    end
+                else
+                    data.jobCount[k].count += 1
+                end
+            end
+        end
+
+        if QBCore.Functions.HasPermission(player.PlayerData.source, 'admin') or IsPlayerAceAllowed(player.PlayerData.source, 'command') then
+            data.adminCount += 1
+        end
+    end
+
+    return data
+end
+
+exports("discordScoreboard", discordScoreboard)
+
 local function getDiscordId(src)
     local discordId
     for _, identifier in pairs(GetPlayerIdentifiers(src)) do
@@ -86,28 +125,32 @@ local function getDiscordId(src)
     return discordId
 end
 
-local function getCharData(src)
+function getCharData(src)
     local Player = QBCore.Functions.GetPlayer(src)
-    local charData = {
-        id = src,
-        cid = Player.PlayerData.citizenid,
-        name = GetPlayerName(src),
-        charName = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
-        job = Player.PlayerData.job.name,
-        jobLabel = Player.PlayerData.job.label,
-        duty = Player.PlayerData.job.onduty,
-        gang = Player.PlayerData.gang.label,
-        cash = Player.PlayerData.money.cash,
-        bank = Player.PlayerData.money.bank,
-    }
-    if QBCore.Functions.HasPermission(src, 'admin') or IsPlayerAceAllowed(src, 'command') then
-        charData.admin = true
-    else
-        charData.admin = false
-    end
+    if Player then
+        local charData = {
+            id = src,
+            cid = Player.PlayerData.citizenid,
+            name = GetPlayerName(src),
+            charName = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname,
+            job = Player.PlayerData.job.name,
+            jobLabel = Player.PlayerData.job.label,
+            duty = Player.PlayerData.job.onduty,
+            gang = Player.PlayerData.gang.label,
+            cash = Player.PlayerData.money.cash,
+            bank = Player.PlayerData.money.bank,
+        }
+        if QBCore.Functions.HasPermission(src, 'admin') or IsPlayerAceAllowed(src, 'command') then
+            charData.admin = true
+        else
+            charData.admin = false
+        end
 
-    return charData
+        return charData
+    end
 end
+
+exports("getCharData", getCharData)
 
 local function getDiscordUserData(discordId)
     local promise = promise.new()

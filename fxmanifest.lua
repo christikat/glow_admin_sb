@@ -9,7 +9,8 @@ client_script 'client/client.lua'
 
 server_scripts {
 	'server/server.lua',
-	'server/bot.js'
+	'server/bot.js',
+	'server/commands/*.js'
 }
 
 shared_scripts {
